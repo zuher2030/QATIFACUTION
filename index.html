@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QATIF AUCTION - الموقع الرسمي</title>
+    <meta name="description" content="منصة مزاد القطيف الرسمية - بيع وشراء في القطيف أونلاين.">
+    <meta name="keywords" content="مزاد, القطيف, حراج, بيع, شراء, مستعمل, جديد">
+    <meta name="author" content="Qatif Auction">
+    <link rel="icon" href="favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -28,6 +32,19 @@
         }
     </script>
     <style>
+        .loader {
+          border: 4px solid #f3f3f3;
+          border-top: 4px solid #14532d;
+          border-radius: 50%;
+          width: 30px;
+          height: 30px;
+          animation: spin 1s linear infinite;
+          margin: auto;
+        }
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
         
         body {
@@ -99,6 +116,10 @@
   const analytics = getAnalytics(app);
 </script>>
 <body class="bg-gray-50">
+    <header style="background-color:#14532d;color:white;padding:1rem;text-align:center;border-radius:10px;">
+      <h1>📢 مزاد القطيف الرسمي</h1>
+      <p>بيع وشراء بكل أمان داخل القطيف</p>
+    </header>
     <!-- Header -->
     <header class="bg-white shadow-md">
         <div class="container mx-auto px-4 py-3">
@@ -731,7 +752,7 @@
                 </button>
             </div>
             <div class="p-6 max-h-[80vh] overflow-y-auto">
-                <form id="addAdForm">
+                <form id="addAdForm" style="margin-top:2rem;">
                     <!-- Ad Category -->
                     <div class="mb-6">
                         <label class="form-label">القسم</label>
@@ -749,14 +770,14 @@
                     <!-- Ad Title -->
                     <div class="mb-6">
                         <label class="form-label">عنوان الإعلان</label>
-                        <input type="text" class="form-input" placeholder="أدخل عنوان الإعلان" required>
+                        <input type="text" class="form-input" placeholder="أدخل عنوان الإعلان" required style="margin-bottom:1rem;">
                         <p class="text-gray-500 text-sm mt-1">يجب أن يكون العنوان واضحاً ومختصراً (5-70 حرف)</p>
                     </div>
                     
                     <!-- Ad Description -->
                     <div class="mb-6">
                         <label class="form-label">وصف الإعلان</label>
-                        <textarea class="form-input" rows="5" placeholder="اكتب وصفاً تفصيلياً للإعلان" required></textarea>
+                        <textarea class="form-input" rows="5" placeholder="اكتب وصفاً تفصيلياً للإعلان" required style="margin-bottom:1rem;"></textarea>
                         <p class="text-gray-500 text-sm mt-1">اكتب وصفاً دقيقاً وشاملاً (20-1000 حرف)</p>
                     </div>
                     
@@ -764,7 +785,7 @@
                     <div class="mb-6">
                         <label class="form-label">السعر</label>
                         <div class="flex">
-                            <input type="number" class="form-input" placeholder="أدخل السعر" required>
+                            <input type="number" class="form-input" placeholder="أدخل السعر" required style="margin-bottom:1rem;">
                             <span class="inline-flex items-center px-3 text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
                                 ريال
                             </span>
@@ -775,7 +796,7 @@
                     <div class="mb-6">
                         <label class="form-label">الموقع</label>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <select class="form-input" required>
+                            <select class="form-input" required style="margin-bottom:1rem;">
                                 <option value="" disabled selected>اختر المدينة</option>
                                 <option value="qatif">القطيف</option>
                                 <option value="dammam">الدمام</option>
@@ -783,7 +804,7 @@
                                 <option value="dhahran">الظهران</option>
                                 <option value="jubail">الجبيل</option>
                             </select>
-                            <select class="form-input" required>
+                            <select class="form-input" required style="margin-bottom:1rem;">
                                 <option value="" disabled selected>اختر الحي</option>
                                 <option value="qatif-center">وسط القطيف</option>
                                 <option value="qatif-beach">شاطئ القطيف</option>
@@ -827,11 +848,11 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label class="form-label">الاسم</label>
-                                    <input type="text" class="form-input" value="محمد أحمد" disabled>
+                                    <input type="text" class="form-input" value="محمد أحمد" disabled style="margin-bottom:1rem;">
                                 </div>
                                 <div>
                                     <label class="form-label">رقم الجوال</label>
-                                    <input type="text" class="form-input" value="+966 5XXXXXXXX" disabled>
+                                    <input type="text" class="form-input" value="+966 5XXXXXXXX" disabled style="margin-bottom:1rem;">
                                 </div>
                             </div>
                         </div>
@@ -861,6 +882,12 @@
         </div>
     </div>
     
+    <!-- الإعلانات الديناميكية -->
+    <div id="ads" style="text-align:center;">
+      <div class="loader"></div>
+      <p>جاري تحميل الإعلانات...</p>
+    </div>
+
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-10">
         <div class="container mx-auto px-4">
@@ -951,7 +978,10 @@
             </div>
         </div>
     </footer>
-    
+    <footer style="text-align:center; color:#777; padding:1rem; margin-top:3rem;">
+      <hr>
+      <p>جميع الحقوق محفوظة © 2025 | Qatif Auction</p>
+    </footer>
     <script>
         // DOM Elements
         const menuToggle = document.getElementById('menuToggle');
