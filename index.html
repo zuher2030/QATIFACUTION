@@ -148,9 +148,7 @@
       snapshot.forEach(doc => {
         const ad = doc.data();
         ad.id = doc.id;
-        if (ad.approved) {
-          adsData.push(ad);
-        }
+        adsData.push(ad);
       });
       renderAds(adsData);
       renderFeaturedAds(adsData);
@@ -188,8 +186,7 @@
           year,
           phone,
           imageUrl,
-          createdAt: new Date().toISOString(),
-          approved: true
+          createdAt: new Date().toISOString()
         });
         alert("✅ تم نشر الإعلان بنجاح");
         document.getElementById("adForm").reset();
