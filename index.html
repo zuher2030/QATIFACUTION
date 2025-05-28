@@ -93,23 +93,29 @@
         }
     </style>
 </<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCFQtwifMb4YWSLb1Tp1Q1QYvzyl0Fm9nM",
+    authDomain: "qatifauction.firebaseapp.com",
+    projectId: "qatifauction",
+    storageBucket: "qatifauction.firebasestorage.app",
+    messagingSenderId: "799759393790",
+    appId: "1:799759393790:web:f770f97a688be83ec316af",
+    measurementId: "G-0MZFF06ZDH"
+  };
+
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
 </script>>
 <body class="bg-gray-50">
-    <!-- تسجيل الدخول برقم الجوال -->
-    <div id="loginSection" style="margin:2rem;">
-      <h3>تسجيل الدخول برقم الجوال</h3>
-      <input type="tel" id="phoneNumber" placeholder="أدخل رقم الجوال مثل +9665xxxxxxx" />
-      <div id="recaptcha-container"></div>
-      <button onclick="sendCode()">إرسال الكود</button>
-
-      <div id="verifySection" style="margin-top:1rem; display:none;">
-        <input type="text" id="verificationCode" placeholder="أدخل الكود هنا" />
-        <button onclick="verifyCode()">تحقق</button>
-      </div>
-    </div>
     <header style="background-color:#14532d;color:white;padding:1rem;text-align:center;border-radius:10px;">
       <h1>📢 مزاد القطيف الرسمي</h1>
       <p>بيع وشراء بكل أمان داخل القطيف</p>
@@ -976,51 +982,7 @@
       <hr>
       <p>جميع الحقوق محفوظة © 2025 | Qatif Auction</p>
     </footer>
-<script type="module">
-  // Firebase Auth with Phone Number
-  import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
-
-  // تأكد من تهيئة firebaseConfig و app مسبقاً
-  // const app = initializeApp(firebaseConfig);
-  // const analytics = getAnalytics(app);
-  const auth = getAuth(app);
-
-  // إعداد Recaptcha
-  window.recaptchaVerifier = new RecaptchaVerifier("recaptcha-container", {
-    size: "normal",
-    callback: (response) => {
-      console.log("reCAPTCHA success!");
-    },
-  }, auth);
-
-  window.sendCode = function() {
-    const phone = document.getElementById("phoneNumber").value;
-    const appVerifier = window.recaptchaVerifier;
-
-    signInWithPhoneNumber(auth, phone, appVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        document.getElementById("verifySection").style.display = "block";
-        alert("تم إرسال الكود إلى جوالك");
-      }).catch((error) => {
-        console.error("خطأ في الإرسال", error);
-        alert("حدث خطأ: " + error.message);
-      });
-  }
-
-  window.verifyCode = function() {
-    const code = document.getElementById("verificationCode").value;
-    window.confirmationResult.confirm(code)
-      .then((result) => {
-        const user = result.user;
-        alert("تم تسجيل الدخول بنجاح! ✅");
-        console.log("User:", user);
-      }).catch((error) => {
-        alert("كود غير صحيح ❌");
-      });
-  }
-</script>
-<script>
+    <script>
         // DOM Elements
         const menuToggle = document.getElementById('menuToggle');
         const mobileMenu = document.getElementById('mobileMenu');
