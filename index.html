@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>مزاد سيارات القطيف - المنصة الرسمية</title>
-  <meta name="description" content="منصة مزاد القطيف لعرض وبيع السلع بسهولة وأمان في المنطقة.">
+  <title>إعلانات القطيف - المنصة الرسمية</title>
+  <meta name="description" content="منصة إعلانات القطيف لعرض وبيع السلع والخدمات بسهولة وأمان.">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
@@ -12,12 +12,11 @@
 
   <!-- رأس الموقع -->
   <header class="bg-purple-800 text-white p-4 shadow-md flex justify-between items-center">
-    <h1 class="text-2xl font-bold">مزاد سيارات القطيف</h1>
+    <h1 class="text-2xl font-bold">إعلانات القطيف</h1>
     <nav>
       <ul class="flex space-x-4 space-x-reverse items-center">
         <li><a href="#" class="hover:underline">الرئيسية</a></li>
         <li><a href="#" class="hover:underline">الإعلانات</a></li>
-        <li><a href="#" class="hover:underline">تسجيل الدخول</a></li>
         <li><a href="#add-ad" class="hover:underline font-bold text-yellow-300">+ إضافة إعلان</a></li>
       </ul>
     </nav>
@@ -26,21 +25,35 @@
   <!-- المحتوى الرئيسي -->
   <main class="p-6">
     <section class="text-center mb-10">
-      <h2 class="text-3xl font-bold text-purple-700 mb-2">مرحبًا بك في منصة مزاد سيارات القطيف</h2>
+      <h2 class="text-3xl font-bold text-purple-700 mb-2">مرحبًا بك في منصة إعلانات القطيف</h2>
       <p class="text-gray-700">أعلن، ابحث، وتواصل مع البائعين مباشرة بكل سهولة وأمان</p>
     </section>
 
     <section class="grid md:grid-cols-3 gap-6">
       <div class="bg-white rounded shadow p-6 text-center hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold mb-2">🚗 سيارات</h3>
-        <p class="text-gray-600">بيع وشراء السيارات الجديدة والمستعملة في القطيف.</p>
+        <h3 class="text-xl font-semibold mb-2">🗂️ الكل</h3>
+        <p class="text-gray-600">بيع وشراء جميع السلع والخدمات في القطيف.</p>
       </div>
+    </section>
+
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4 max-w-4xl mx-auto mb-6">
+      <input id="searchInput" type="text" placeholder="ابحث باسم الموديل أو السعر..." class="w-full md:w-1/2 p-2 border rounded shadow-sm" oninput="searchAds()" />
+      <select id="sortSelect" onchange="sortAds()" class="p-2 border rounded shadow-sm">
+        <option value="newest">🕓 الأحدث</option>
+        <option value="priceAsc">💰 السعر من الأقل</option>
+        <option value="priceDesc">💸 السعر من الأعلى</option>
+      </select>
+    </div>
+
+    <section id="featured-ads" class="max-w-4xl mx-auto mb-10">
+      <h3 class="text-xl font-bold text-purple-700 mb-3 text-center">🚀 إعلانات مميزة</h3>
+      <div id="featured-list" class="space-y-4"></div>
     </section>
 
     <section id="ads-section" class="mt-10">
       <h2 class="text-2xl font-bold text-center text-purple-800 mb-4">أحدث الإعلانات</h2>
       <div class="text-center mb-4">
-        <button onclick="filterByCategory('سيارات')" class="px-3 py-1 mx-1 bg-purple-100 hover:bg-purple-200 rounded">🚗 سيارات</button>
+        <button onclick="filterByCategory('الكل')" class="px-3 py-1 mx-1 bg-purple-100 hover:bg-purple-200 rounded">🗂️ الكل</button>
       </div>
       <div id="ads-list" class="space-y-4 max-w-4xl mx-auto">
         <!-- سيتم تحميل الإعلانات هنا -->
@@ -48,24 +61,10 @@
     </section>
   </main>
 
-  <section id="login" class="bg-white p-6 rounded shadow max-w-md mx-auto mt-12">
-    <h3 class="text-xl font-bold text-center mb-4 text-purple-800">تسجيل الدخول</h3>
-    <form class="space-y-4">
-      <div>
-        <label class="block text-sm mb-1 text-gray-700">رقم الجوال</label>
-        <input type="tel" inputmode="numeric" placeholder="05xxxxxxxx" class="w-full p-2 border rounded" />
-      </div>
-      <div>
-        <label class="block text-sm mb-1 text-gray-700">رمز التحقق</label>
-        <input type="text" placeholder="أدخل الرمز المرسل" class="w-full p-2 border rounded" />
-      </div>
-      <button type="submit" class="w-full bg-purple-800 text-white py-2 rounded hover:bg-purple-700 transition">دخول</button>
-    </form>
-  </section>
 
   <!-- نموذج إضافة إعلان جديد -->
   <section id="add-ad" class="bg-white p-6 rounded shadow max-w-2xl mx-auto mt-12">
-    <h3 class="text-xl font-bold text-center mb-4 text-purple-800">إضافة سيارة جديدة</h3>
+    <h3 class="text-xl font-bold text-center mb-4 text-purple-800">إضافة إعلان جديد</h3>
     <form id="adForm" class="space-y-4">
       <div>
         <label class="block text-sm mb-1 text-gray-700">عنوان الإعلان</label>
@@ -74,6 +73,22 @@
       <div>
         <label class="block text-sm mb-1 text-gray-700">الوصف</label>
         <textarea id="descInput" rows="4" placeholder="أضف تفاصيل الإعلان" class="w-full p-2 border rounded" required></textarea>
+      </div>
+      <div>
+        <label class="block text-sm mb-1 text-gray-700">السعر (ريال)</label>
+        <input id="priceInput" type="number" placeholder="مثال: 35000" class="w-full p-2 border rounded" required />
+      </div>
+      <div>
+        <label class="block text-sm mb-1 text-gray-700">الموديل</label>
+        <input id="modelInput" type="text" placeholder="مثال: تويوتا كامري" class="w-full p-2 border rounded" required />
+      </div>
+      <div>
+        <label class="block text-sm mb-1 text-gray-700">سنة الصنع</label>
+        <input id="yearInput" type="number" placeholder="مثال: 2020" class="w-full p-2 border rounded" required />
+      </div>
+      <div>
+        <label class="block text-sm mb-1 text-gray-700">رقم واتساب (اختياري)</label>
+        <input id="phoneInput" type="tel" placeholder="05xxxxxxxx" class="w-full p-2 border rounded" />
       </div>
       <div>
         <label class="block text-sm mb-1 text-gray-700">صورة الإعلان</label>
@@ -129,60 +144,33 @@
     async function loadAds() {
       const q = query(collection(db, "ads"), orderBy("createdAt", "desc"));
       const snapshot = await getDocs(q);
-      const container = document.getElementById("ads-list");
-
+      adsData = [];
       snapshot.forEach(doc => {
         const ad = doc.data();
-        const adEl = document.createElement("div");
-        adEl.className = "bg-white shadow rounded p-4 flex gap-4 items-center";
-        adEl.dataset.cat = ad.category;
-
-        adEl.innerHTML = `
-          <img src="${ad.imageUrl}" alt="صورة" class="w-24 h-24 object-cover rounded border" />
-          <div class="flex-1">
-            <h3 class="text-lg font-bold text-purple-800">${ad.title}</h3>
-            <p class="text-gray-600 text-sm mt-1">${ad.category} - ${new Date(ad.createdAt).toLocaleString('ar-EG')}</p>
-            <a href="https://wa.me/?text=مرحبًا، مهتم بالإعلان: ${encodeURIComponent(ad.title)}" target="_blank" class="text-green-600 hover:underline text-sm">تواصل عبر واتساب</a>
-          </div>
-          <span class="text-green-600 font-bold text-lg">📦</span>
-        `;
-
-        container.appendChild(adEl);
+        ad.id = doc.id;
+        if (ad.approved) {
+          adsData.push(ad);
+        }
       });
+      renderAds(adsData);
+      renderFeaturedAds(adsData);
     }
+
+    let adsData = [];
 
     loadAds();
 
-    // تهيئة Recaptcha للتحقق من المستخدم
-    window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
-      'size': 'invisible',
-      'callback': (response) => {
-        // يتم الاستدعاء تلقائيًا عند النجاح
-      }
-    }, auth);
-
-    // ربط حدث الإرسال لنموذج تسجيل الدخول
-    document.querySelector("#login form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      // الحصول على رقم الجوال من الحقل
-      const phone = document.querySelector('input[type="tel"]').value;
-      const appVerifier = window.recaptchaVerifier;
-      try {
-        // إرسال رمز التحقق عبر Firebase Authentication
-        const confirmationResult = await signInWithPhoneNumber(auth, "+966" + phone.slice(1), appVerifier);
-        window.confirmationResult = confirmationResult;
-        alert("تم إرسال رمز التحقق بنجاح.");
-      } catch (error) {
-        alert("حدث خطأ: " + error.message);
-      }
-    });
 
     // ربط حدث الإرسال لنموذج إضافة إعلان
     document.getElementById("adForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const title = document.getElementById("titleInput").value;
-      const category = "سيارات";
+      const category = "الكل";
       const description = document.getElementById("descInput").value;
+      const price = document.getElementById("priceInput").value;
+      const model = document.getElementById("modelInput").value;
+      const year = document.getElementById("yearInput").value;
+      const phone = document.getElementById("phoneInput").value;
       const imageFile = document.getElementById("imageInput").files[0];
 
       if (!imageFile) return alert("يرجى اختيار صورة.");
@@ -195,15 +183,81 @@
           title,
           category,
           description,
+          price,
+          model,
+          year,
+          phone,
           imageUrl,
-          createdAt: new Date().toISOString()
+          createdAt: new Date().toISOString(),
+          approved: true
         });
-        alert("تم نشر الإعلان بنجاح");
+        alert("✅ تم نشر الإعلان بنجاح");
         document.getElementById("adForm").reset();
       } catch (err) {
         alert("حدث خطأ أثناء رفع الإعلان: " + err.message);
       }
     });
+
+    function renderAds(data) {
+      const container = document.getElementById("ads-list");
+      container.innerHTML = "";
+      data.forEach(ad => {
+        const adEl = document.createElement("div");
+        adEl.className = "bg-white shadow rounded p-4 flex gap-4 items-center";
+        adEl.dataset.cat = ad.category;
+        adEl.innerHTML = `
+          <a href="ad.html?id=${ad.id}" class="flex gap-4 items-center hover:bg-gray-50 p-2 rounded transition">
+            <img src="${ad.imageUrl}" alt="صورة" class="w-24 h-24 object-cover rounded border" />
+            <div class="flex-1">
+              <h3 class="text-lg font-bold text-purple-800">${ad.title}</h3>
+              <p class="text-sm text-gray-700">💰 السعر: ${ad.price || "-"} ريال</p>
+              <p class="text-sm text-gray-700">🚘 الموديل: ${ad.model || "-"} - سنة ${ad.year || "-"}</p>
+              <p class="text-gray-600 text-sm mt-1">${new Date(ad.createdAt).toLocaleString('ar-EG')}</p>
+            </div>
+            <span class="text-green-600 font-bold text-lg">🚗</span>
+          </a>
+        `;
+        container.appendChild(adEl);
+      });
+    }
+
+    function renderFeaturedAds(data) {
+      const featured = [...data]
+        .sort((a, b) => Number(b.price) - Number(a.price)) // ترتيب حسب الأعلى سعرًا
+        .slice(0, 3); // نأخذ فقط ٣
+
+      const container = document.getElementById("featured-list");
+      container.innerHTML = "";
+      featured.forEach(ad => {
+        const adEl = document.createElement("div");
+        adEl.className = "bg-yellow-50 border border-yellow-300 shadow rounded p-4 flex gap-4 items-center";
+        adEl.innerHTML = `
+          <a href="ad.html?id=${ad.id}" class="flex gap-4 items-center hover:bg-yellow-100 p-2 rounded transition">
+            <img src="${ad.imageUrl}" alt="صورة" class="w-24 h-24 object-cover rounded border" />
+            <div class="flex-1">
+              <h3 class="text-lg font-bold text-yellow-800">${ad.title}</h3>
+              <p class="text-sm text-gray-700">💰 السعر: ${ad.price || "-"} ريال</p>
+              <p class="text-sm text-gray-700">🚘 الموديل: ${ad.model || "-"} - سنة ${ad.year || "-"}</p>
+            </div>
+            <span class="text-yellow-500 font-bold text-lg">⭐</span>
+          </a>
+        `;
+        container.appendChild(adEl);
+      });
+    }
+
+    function sortAds() {
+      const sortType = document.getElementById("sortSelect").value;
+      let sorted = [...adsData];
+      if (sortType === "priceAsc") {
+        sorted.sort((a, b) => Number(a.price) - Number(b.price));
+      } else if (sortType === "priceDesc") {
+        sorted.sort((a, b) => Number(b.price) - Number(a.price));
+      } else {
+        sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      }
+      renderAds(sorted);
+    }
   </script>
 
   <!-- عنصر وهمي لركابتشا -->
