@@ -1,1288 +1,213 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QATIF AUCTION - الموقع الرسمي</title>
-    <meta name="description" content="منصة مزاد القطيف الرسمية - بيع وشراء في القطيف أونلاين.">
-    <meta name="keywords" content="مزاد, القطيف, حراج, بيع, شراء, مستعمل, جديد">
-    <meta name="author" content="Qatif Auction">
-    <link rel="icon" href="favicon.ico">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            DEFAULT: '#8A2BE2', // بنفسجي
-                            light: '#9D4EDD',
-                        },
-                        secondary: {
-                            DEFAULT: '#FF7F00', // برتقالي
-                            light: '#FFA347',
-                        }
-                    },
-                    fontFamily: {
-                        'tajawal': ['Tajawal', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .loader {
-          border: 4px solid #f3f3f3;
-          border-top: 4px solid #14532d;
-          border-radius: 50%;
-          width: 30px;
-          height: 30px;
-          animation: spin 1s linear infinite;
-          margin: auto;
-        }
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
-        
-        body {
-            font-family: 'Tajawal', sans-serif;
-        }
-        
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-        
-        .ad-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مزاد القطيف - المنصة الرسمية</title>
+  <meta name="description" content="منصة مزاد القطيف لعرض وبيع السلع بسهولة وأمان في المنطقة.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body class="bg-gray-50 font-sans">
 
-        /* تأثيرات إضافية */
-        .btn-hover:hover {
-            transform: translateY(-2px);
-            transition: all 0.3s ease;
-        }
-
-        .modal {
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        /* تنسيق النماذج */
-        .form-input {
-            @apply w-full py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary;
-        }
-
-        .form-label {
-            @apply block text-gray-700 mb-2;
-        }
-
-        .btn-primary {
-            @apply bg-primary hover:bg-primary-light text-white py-2 px-6 rounded-lg transition btn-hover;
-        }
-
-        .btn-secondary {
-            @apply bg-secondary hover:bg-secondary-light text-white py-2 px-6 rounded-lg transition btn-hover;
-        }
-
-        .btn-outline {
-            @apply border border-primary text-primary hover:bg-primary hover:text-white py-2 px-6 rounded-lg transition btn-hover;
-        }
-    </style>
-</<script type="module">
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>>
-<body class="bg-gray-50">
-    <!-- تسجيل الدخول برقم الجوال -->
-    <div id="loginSection" style="margin:2rem;">
-      <h3>تسجيل الدخول برقم الجوال</h3>
-      <input type="tel" id="phoneNumber" placeholder="أدخل رقم الجوال مثل +9665xxxxxxx" />
-      <div id="recaptcha-container"></div>
-      <button onclick="sendCode()">إرسال الكود</button>
-
-      <div id="verifySection" style="margin-top:1rem; display:none;">
-        <input type="text" id="verificationCode" placeholder="أدخل الكود هنا" />
-        <button onclick="verifyCode()">تحقق</button>
-      </div>
-    </div>
-    <header style="background-color:#14532d;color:white;padding:1rem;text-align:center;border-radius:10px;">
-      <h1>📢 مزاد القطيف الرسمي</h1>
-      <p>بيع وشراء بكل أمان داخل القطيف</p>
-    </header>
-    <!-- Header -->
-    <header class="bg-white shadow-md">
-        <div class="container mx-auto px-4 py-3">
-            <div class="flex justify-between items-center">
-                <!-- Logo -->
-                <div class="flex items-center">
-                    <a href="index.html" class="flex items-center">
-                        <svg class="h-12 w-12" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="50" cy="50" r="45" fill="#8A2BE2" />
-                            <text x="50" y="55" font-size="24" text-anchor="middle" fill="white" font-family="Tajawal, sans-serif" font-weight="bold">مزاد</text>
-                            <path d="M25,70 C25,70 50,85 75,70" stroke="#FF7F00" stroke-width="5" fill="none" />
-                        </svg>
-                        <div class="mr-2">
-                            <span class="text-2xl font-bold text-primary block">مزاد القطيف</span>
-                            <span class="text-sm text-gray-600 block">QATIF AUCTION</span>
-                        </div>
-                    </a>
-                </div>
-                
-                <!-- Search Bar -->
-                <div class="hidden md:flex flex-1 mx-10">
-                    <div class="relative w-full">
-                        <input type="text" placeholder="ابحث عن سلع، خدمات، وظائف..." class="w-full py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                        <button class="absolute left-0 top-0 h-full px-4 bg-primary text-white rounded-l-lg hover:bg-primary-light transition">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- User Actions -->
-                <div class="flex items-center space-x-4 space-x-reverse">
-                    <button class="bg-secondary hover:bg-secondary-light text-white py-2 px-4 rounded-lg transition" id="addAdBtn">
-                        <i class="fas fa-plus ml-1"></i>
-                        أضف إعلان
-                    </button>
-                    <div class="relative" id="userMenuContainer">
-                        <button class="text-gray-700 hover:text-primary transition" id="userMenuBtn">
-                            <i class="fas fa-user-circle text-2xl"></i>
-                        </button>
-                        <!-- User Dropdown Menu (Hidden by default) -->
-                        <div class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10 hidden" id="userMenu">
-                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-primary hover:text-white" id="loginBtn">تسجيل الدخول</a>
-                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-primary hover:text-white" id="registerBtn">حساب جديد</a>
-                            <div class="hidden" id="loggedInMenu">
-                                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-primary hover:text-white">حسابي</a>
-                                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-primary hover:text-white">إعلاناتي</a>
-                                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-primary hover:text-white">المفضلة</a>
-                                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-primary hover:text-white">الرسائل</a>
-                                <hr class="my-1 border-gray-200">
-                                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-primary hover:text-white" id="logoutBtn">تسجيل الخروج</a>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="text-gray-700 hover:text-primary transition md:hidden" id="searchToggle">
-                        <i class="fas fa-search text-xl"></i>
-                    </button>
-                    <button class="text-gray-700 hover:text-primary transition" id="menuToggle">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Mobile Search (Hidden by default) -->
-            <div class="mt-3 md:hidden hidden" id="mobileSearch">
-                <input type="text" placeholder="ابحث عن سلع، خدمات، وظائف..." class="w-full py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-            </div>
-        </div>
-    </header>
-    
-    <!-- Mobile Menu (Hidden by default) -->
-    <div class="bg-white shadow-md hidden" id="mobileMenu">
-        <div class="container mx-auto px-4 py-3">
-            <ul class="space-y-3">
-                <li><a href="#" class="block py-2 hover:text-primary transition">الرئيسية</a></li>
-                <li><a href="#" class="block py-2 hover:text-primary transition">السيارات</a></li>
-                <li><a href="#" class="block py-2 hover:text-primary transition">العقارات</a></li>
-                <li><a href="#" class="block py-2 hover:text-primary transition">الأجهزة</a></li>
-                <li><a href="#" class="block py-2 hover:text-primary transition">الخدمات</a></li>
-                <li><a href="#" class="block py-2 hover:text-primary transition">الوظائف</a></li>
-                <li><a href="#" class="block py-2 hover:text-primary transition">المزيد</a></li>
-            </ul>
-        </div>
-    </div>
-    
-    <!-- Main Navigation -->
-    <nav class="bg-primary text-white">
-        <div class="container mx-auto px-4">
-            <ul class="flex overflow-x-auto whitespace-nowrap py-3 space-x-6 space-x-reverse">
-                <li><a href="#" class="hover:text-secondary transition font-bold">الرئيسية</a></li>
-                <li><a href="#" class="hover:text-secondary transition">السيارات</a></li>
-                <li><a href="#" class="hover:text-secondary transition">العقارات</a></li>
-                <li><a href="#" class="hover:text-secondary transition">الأجهزة</a></li>
-                <li><a href="#" class="hover:text-secondary transition">الأثاث</a></li>
-                <li><a href="#" class="hover:text-secondary transition">الخدمات</a></li>
-                <li><a href="#" class="hover:text-secondary transition">الوظائف</a></li>
-                <li><a href="#" class="hover:text-secondary transition">المزيد</a></li>
-            </ul>
-        </div>
+  <!-- رأس الموقع -->
+  <header class="bg-purple-800 text-white p-4 shadow-md flex justify-between items-center">
+    <h1 class="text-2xl font-bold">مزاد القطيف</h1>
+    <nav>
+      <ul class="flex space-x-4 space-x-reverse items-center">
+        <li><a href="#" class="hover:underline">الرئيسية</a></li>
+        <li><a href="#" class="hover:underline">الإعلانات</a></li>
+        <li><a href="#" class="hover:underline">تسجيل الدخول</a></li>
+        <li><a href="#add-ad" class="hover:underline font-bold text-yellow-300">+ إضافة إعلان</a></li>
+      </ul>
     </nav>
-    
-    <!-- Main Content Area -->
-    <div id="mainContent">
-        <!-- Hero Section -->
-        <section class="bg-gradient-to-r from-primary to-primary-light text-white py-10">
-            <div class="container mx-auto px-4 text-center">
-                <h1 class="text-3xl md:text-4xl font-bold mb-2">مرحباً بك في مزاد القطيف</h1>
-                <p class="text-xl mb-2">WELCOME TO QATIF AUCTION</p>
-                <p class="text-lg mb-6">المنصة الأولى للبيع والشراء في القطيف والمنطقة الشرقية</p>
-                <div class="flex justify-center">
-                    <button class="bg-secondary hover:bg-secondary-light text-white py-3 px-6 rounded-lg transition text-lg" id="heroAddAdBtn">
-                        <i class="fas fa-plus ml-2"></i>
-                        أضف إعلانك الآن
-                    </button>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Categories Section -->
-        <section class="py-10">
-            <div class="container mx-auto px-4">
-                <h2 class="text-2xl font-bold mb-6 text-gray-800">تصفح حسب الفئات</h2>
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                    <!-- Category 1 -->
-                    <a href="#" class="category-card bg-white rounded-lg shadow p-4 flex flex-col items-center transition duration-300">
-                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-3">
-                            <i class="fas fa-car text-2xl text-primary"></i>
-                        </div>
-                        <span class="font-medium text-gray-800">السيارات</span>
-                    </a>
-                    
-                    <!-- Category 2 -->
-                    <a href="#" class="category-card bg-white rounded-lg shadow p-4 flex flex-col items-center transition duration-300">
-                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-3">
-                            <i class="fas fa-home text-2xl text-primary"></i>
-                        </div>
-                        <span class="font-medium text-gray-800">العقارات</span>
-                    </a>
-                    
-                    <!-- Category 3 -->
-                    <a href="#" class="category-card bg-white rounded-lg shadow p-4 flex flex-col items-center transition duration-300">
-                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-3">
-                            <i class="fas fa-mobile-alt text-2xl text-primary"></i>
-                        </div>
-                        <span class="font-medium text-gray-800">الأجهزة</span>
-                    </a>
-                    
-                    <!-- Category 4 -->
-                    <a href="#" class="category-card bg-white rounded-lg shadow p-4 flex flex-col items-center transition duration-300">
-                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-3">
-                            <i class="fas fa-couch text-2xl text-primary"></i>
-                        </div>
-                        <span class="font-medium text-gray-800">الأثاث</span>
-                    </a>
-                    
-                    <!-- Category 5 -->
-                    <a href="#" class="category-card bg-white rounded-lg shadow p-4 flex flex-col items-center transition duration-300">
-                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-3">
-                            <i class="fas fa-tools text-2xl text-primary"></i>
-                        </div>
-                        <span class="font-medium text-gray-800">الخدمات</span>
-                    </a>
-                    
-                    <!-- Category 6 -->
-                    <a href="#" class="category-card bg-white rounded-lg shadow p-4 flex flex-col items-center transition duration-300">
-                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-3">
-                            <i class="fas fa-briefcase text-2xl text-primary"></i>
-                        </div>
-                        <span class="font-medium text-gray-800">الوظائف</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Featured Ads Section -->
-        <section class="py-10 bg-gray-100">
-            <div class="container mx-auto px-4">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold text-gray-800">إعلانات مميزة</h2>
-                    <a href="#" class="text-secondary hover:text-secondary-light transition">عرض الكل</a>
-                </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    <!-- Ad 1 -->
-                    <div class="ad-card bg-white rounded-lg shadow overflow-hidden transition duration-300">
-                        <div class="relative">
-                            <div class="h-48 bg-gray-200 flex items-center justify-center">
-                                <svg loading="lazy" class="w-20 h-20 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                            <span class="absolute top-2 right-2 bg-secondary text-white text-xs py-1 px-2 rounded-full">مميز</span>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-2">
-                                <button onclick="navigator.clipboard.writeText(window.location.href);" class="text-xs text-blue-500 hover:underline float-left">نسخ الرابط</button><br>
-                                تويوتا كامري 2023 فل كامل
-                            </h3>
-                            <p class="text-gray-600 mb-3 text-sm line-clamp-2">سيارة بحالة ممتازة، ماشية 5000 كم فقط، جميع الصيانات بالوكالة...</p>
-                            <div class="flex justify-between items-center">
-                                <span class="font-bold text-primary">120,000 ريال</span>
-                                <span class="text-gray-500 text-sm">القطيف - الشاطئ</span>
-                            </div>
-                            <div class="mt-2">
-                                <button onclick="window.open('https://wa.me/?text=' + encodeURIComponent(window.location.href));"
-                                    class="text-sm text-secondary hover:underline">
-                                    <i class="fas fa-share-alt mr-1"></i> شارك الإعلان
-                                </button>
-                            </div>
-                            <a href="https://wa.me/9665XXXXXXX" target="_blank" class="text-green-600 hover:text-green-800 text-sm flex items-center mt-2">
-                                <i class="fab fa-whatsapp mr-1"></i> تواصل واتساب
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <!-- Ad 2 -->
-                    <div class="ad-card bg-white rounded-lg shadow overflow-hidden transition duration-300">
-                        <div class="relative">
-                            <div class="h-48 bg-gray-200 flex items-center justify-center">
-                                <svg loading="lazy" class="w-20 h-20 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                            <span class="absolute top-2 right-2 bg-secondary text-white text-xs py-1 px-2 rounded-full">مميز</span>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-2">
-                                <button onclick="navigator.clipboard.writeText(window.location.href);" class="text-xs text-blue-500 hover:underline float-left">نسخ الرابط</button><br>
-                                شقة فاخرة للإيجار
-                            </h3>
-                            <p class="text-gray-600 mb-3 text-sm line-clamp-2">شقة مكونة من 3 غرف وصالة ومطبخ، مؤثثة بالكامل، موقع ممتاز قريب من الخدمات...</p>
-                            <div class="flex justify-between items-center">
-                                <span class="font-bold text-primary">2,500 ريال/شهر</span>
-                                <span class="text-gray-500 text-sm">القطيف - المجيدية</span>
-                            </div>
-                            <div class="mt-2">
-                                <button onclick="window.open('https://wa.me/?text=' + encodeURIComponent(window.location.href));"
-                                    class="text-sm text-secondary hover:underline">
-                                    <i class="fas fa-share-alt mr-1"></i> شارك الإعلان
-                                </button>
-                            </div>
-                            <a href="https://wa.me/9665XXXXXXX" target="_blank" class="text-green-600 hover:text-green-800 text-sm flex items-center mt-2">
-                                <i class="fab fa-whatsapp mr-1"></i> تواصل واتساب
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <!-- Ad 3 -->
-                    <div class="ad-card bg-white rounded-lg shadow overflow-hidden transition duration-300">
-                        <div class="relative">
-                            <div class="h-48 bg-gray-200 flex items-center justify-center">
-                                <svg loading="lazy" class="w-20 h-20 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                            <span class="absolute top-2 right-2 bg-secondary text-white text-xs py-1 px-2 rounded-full">مميز</span>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-2">
-                                <button onclick="navigator.clipboard.writeText(window.location.href);" class="text-xs text-blue-500 hover:underline float-left">نسخ الرابط</button><br>
-                                آيفون 14 برو ماكس
-                            </h3>
-                            <p class="text-gray-600 mb-3 text-sm line-clamp-2">جهاز جديد بالكرتون، سعة 256 جيجا، لون أزرق، ضمان سنة...</p>
-                            <div class="flex justify-between items-center">
-                                <span class="font-bold text-primary">4,800 ريال</span>
-                                <span class="text-gray-500 text-sm">القطيف - سيهات</span>
-                            </div>
-                            <div class="mt-2">
-                                <button onclick="window.open('https://wa.me/?text=' + encodeURIComponent(window.location.href));"
-                                    class="text-sm text-secondary hover:underline">
-                                    <i class="fas fa-share-alt mr-1"></i> شارك الإعلان
-                                </button>
-                            </div>
-                            <a href="https://wa.me/9665XXXXXXX" target="_blank" class="text-green-600 hover:text-green-800 text-sm flex items-center mt-2">
-                                <i class="fab fa-whatsapp mr-1"></i> تواصل واتساب
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <!-- Ad 4 -->
-                    <div class="ad-card bg-white rounded-lg shadow overflow-hidden transition duration-300">
-                        <div class="relative">
-                            <div class="h-48 bg-gray-200 flex items-center justify-center">
-                                <svg loading="lazy" class="w-20 h-20 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                            <span class="absolute top-2 right-2 bg-secondary text-white text-xs py-1 px-2 rounded-full">مميز</span>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-2">
-                                <button onclick="navigator.clipboard.writeText(window.location.href);" class="text-xs text-blue-500 hover:underline float-left">نسخ الرابط</button><br>
-                                طاولة طعام خشب زان
-                            </h3>
-                            <p class="text-gray-600 mb-3 text-sm line-clamp-2">طاولة طعام فاخرة مع 6 كراسي، خشب زان أصلي، حالة ممتازة...</p>
-                            <div class="flex justify-between items-center">
-                                <span class="font-bold text-primary">1,800 ريال</span>
-                                <span class="text-gray-500 text-sm">القطيف - تاروت</span>
-                            </div>
-                            <div class="mt-2">
-                                <button onclick="window.open('https://wa.me/?text=' + encodeURIComponent(window.location.href));"
-                                    class="text-sm text-secondary hover:underline">
-                                    <i class="fas fa-share-alt mr-1"></i> شارك الإعلان
-                                </button>
-                            </div>
-                            <a href="https://wa.me/9665XXXXXXX" target="_blank" class="text-green-600 hover:text-green-800 text-sm flex items-center mt-2">
-                                <i class="fab fa-whatsapp mr-1"></i> تواصل واتساب
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Recent Ads Section -->
-        <section class="py-10">
-            <div class="container mx-auto px-4">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold text-gray-800">أحدث الإعلانات</h2>
-                    <a href="#" class="text-secondary hover:text-secondary-light transition">عرض الكل</a>
-                </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    <!-- Ad 1 -->
-                    <div class="ad-card bg-white rounded-lg shadow overflow-hidden transition duration-300">
-                        <div class="h-48 bg-gray-200 flex items-center justify-center">
-                            <svg loading="lazy" class="w-20 h-20 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-2">
-                                <button onclick="navigator.clipboard.writeText(window.location.href);" class="text-xs text-blue-500 hover:underline float-left">نسخ الرابط</button><br>
-                                هوندا أكورد 2022
-                            </h3>
-                            <p class="text-gray-600 mb-3 text-sm line-clamp-2">سيارة نظيفة جدًا، ماشية 20 ألف كم، صيانة دورية...</p>
-                            <div class="flex justify-between items-center">
-                                <span class="font-bold text-primary">95,000 ريال</span>
-                                <span class="text-gray-500 text-sm">القطيف - الربيعية</span>
-                            </div>
-                            <div class="mt-2">
-                                <button onclick="window.open('https://wa.me/?text=' + encodeURIComponent(window.location.href));"
-                                    class="text-sm text-secondary hover:underline">
-                                    <i class="fas fa-share-alt mr-1"></i> شارك الإعلان
-                                </button>
-                            </div>
-                            <a href="https://wa.me/9665XXXXXXX" target="_blank" class="text-green-600 hover:text-green-800 text-sm flex items-center mt-2">
-                                <i class="fab fa-whatsapp mr-1"></i> تواصل واتساب
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <!-- Ad 2 -->
-                    <div class="ad-card bg-white rounded-lg shadow overflow-hidden transition duration-300">
-                        <div class="h-48 bg-gray-200 flex items-center justify-center">
-                            <svg loading="lazy" class="w-20 h-20 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-2">
-                                <button onclick="navigator.clipboard.writeText(window.location.href);" class="text-xs text-blue-500 hover:underline float-left">نسخ الرابط</button><br>
-                                أرض سكنية للبيع
-                            </h3>
-                            <p class="text-gray-600 mb-3 text-sm line-clamp-2">أرض سكنية مساحة 500 متر، شارعين، موقع ممتاز...</p>
-                            <div class="flex justify-between items-center">
-                                <span class="font-bold text-primary">450,000 ريال</span>
-                                <span class="text-gray-500 text-sm">القطيف - العوامية</span>
-                            </div>
-                            <div class="mt-2">
-                                <button onclick="window.open('https://wa.me/?text=' + encodeURIComponent(window.location.href));"
-                                    class="text-sm text-secondary hover:underline">
-                                    <i class="fas fa-share-alt mr-1"></i> شارك الإعلان
-                                </button>
-                            </div>
-                            <a href="https://wa.me/9665XXXXXXX" target="_blank" class="text-green-600 hover:text-green-800 text-sm flex items-center mt-2">
-                                <i class="fab fa-whatsapp mr-1"></i> تواصل واتساب
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <!-- Ad 3 -->
-                    <div class="ad-card bg-white rounded-lg shadow overflow-hidden transition duration-300">
-                        <div class="h-48 bg-gray-200 flex items-center justify-center">
-                            <svg loading="lazy" class="w-20 h-20 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-2">
-                                <button onclick="navigator.clipboard.writeText(window.location.href);" class="text-xs text-blue-500 hover:underline float-left">نسخ الرابط</button><br>
-                                لابتوب ديل XPS
-                            </h3>
-                            <p class="text-gray-600 mb-3 text-sm line-clamp-2">لابتوب ديل XPS 15، كور i7، رام 16 جيجا، شاشة 4K...</p>
-                            <div class="flex justify-between items-center">
-                                <span class="font-bold text-primary">5,500 ريال</span>
-                                <span class="text-gray-500 text-sm">القطيف - صفوى</span>
-                            </div>
-                            <div class="mt-2">
-                                <button onclick="window.open('https://wa.me/?text=' + encodeURIComponent(window.location.href));"
-                                    class="text-sm text-secondary hover:underline">
-                                    <i class="fas fa-share-alt mr-1"></i> شارك الإعلان
-                                </button>
-                            </div>
-                            <a href="https://wa.me/9665XXXXXXX" target="_blank" class="text-green-600 hover:text-green-800 text-sm flex items-center mt-2">
-                                <i class="fab fa-whatsapp mr-1"></i> تواصل واتساب
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <!-- Ad 4 -->
-                    <div class="ad-card bg-white rounded-lg shadow overflow-hidden transition duration-300">
-                        <div class="h-48 bg-gray-200 flex items-center justify-center">
-                            <svg loading="lazy" class="w-20 h-20 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-2">
-                                <button onclick="navigator.clipboard.writeText(window.location.href);" class="text-xs text-blue-500 hover:underline float-left">نسخ الرابط</button><br>
-                                مكيف سبليت كارير
-                            </h3>
-                            <p class="text-gray-600 mb-3 text-sm line-clamp-2">مكيف سبليت كارير 24 وحدة، استخدام بسيط، بحالة الوكالة...</p>
-                            <div class="flex justify-between items-center">
-                                <span class="font-bold text-primary">1,200 ريال</span>
-                                <span class="text-gray-500 text-sm">القطيف - القديح</span>
-                            </div>
-                            <div class="mt-2">
-                                <button onclick="window.open('https://wa.me/?text=' + encodeURIComponent(window.location.href));"
-                                    class="text-sm text-secondary hover:underline">
-                                    <i class="fas fa-share-alt mr-1"></i> شارك الإعلان
-                                </button>
-                            </div>
-                            <a href="https://wa.me/9665XXXXXXX" target="_blank" class="text-green-600 hover:text-green-800 text-sm flex items-center mt-2">
-                                <i class="fab fa-whatsapp mr-1"></i> تواصل واتساب
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Why Choose Us Section -->
-        <section class="py-10 bg-primary/5">
-            <div class="container mx-auto px-4">
-                <h2 class="text-2xl font-bold mb-10 text-center text-gray-800">لماذا تختار QATIF AUCTION؟</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Feature 1 -->
-                    <div class="bg-white p-6 rounded-lg shadow text-center">
-                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-bolt text-2xl text-primary"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-3">سرعة البيع والشراء</h3>
-                        <p class="text-gray-600">نوفر لك منصة سريعة وفعالة للبيع والشراء في منطقة القطيف والمناطق المجاورة.</p>
-                    </div>
-                    
-                    <!-- Feature 2 -->
-                    <div class="bg-white p-6 rounded-lg shadow text-center">
-                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-shield-alt text-2xl text-primary"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-3">الأمان والموثوقية</h3>
-                        <p class="text-gray-600">نحرص على توفير بيئة آمنة للتعاملات مع التحقق من هوية المستخدمين.</p>
-                    </div>
-                    
-                    <!-- Feature 3 -->
-                    <div class="bg-white p-6 rounded-lg shadow text-center">
-                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-map-marker-alt text-2xl text-primary"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-3">تركيز محلي</h3>
-                        <p class="text-gray-600">منصة مخصصة لأهالي القطيف والمنطقة الشرقية، مما يسهل التواصل والتسليم.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Download App Section -->
-        <section class="py-10 bg-gradient-to-r from-primary to-primary-light text-white">
-            <div class="container mx-auto px-4">
-                <div class="flex flex-col md:flex-row items-center justify-between">
-                    <div class="md:w-1/2 mb-6 md:mb-0">
-                        <h2 class="text-2xl md:text-3xl font-bold mb-2">حمل تطبيق QATIF AUCTION الآن</h2>
-                        <p class="text-lg mb-6">استمتع بتجربة تصفح أفضل وإشعارات فورية للإعلانات الجديدة</p>
-                        <div class="flex flex-wrap gap-4">
-                            <button class="bg-black hover:bg-gray-800 text-white py-3 px-6 rounded-lg transition flex items-center">
-                                <i class="fab fa-apple text-2xl ml-2"></i>
-                                <div class="text-right">
-                                    <div class="text-xs">متوفر على</div>
-                                    <div class="font-bold">App Store</div>
-                                </div>
-                            </button>
-                            <button class="bg-black hover:bg-gray-800 text-white py-3 px-6 rounded-lg transition flex items-center">
-                                <i class="fab fa-google-play text-2xl ml-2"></i>
-                                <div class="text-right">
-                                    <div class="text-xs">متوفر على</div>
-                                    <div class="font-bold">Google Play</div>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="md:w-1/2 flex justify-center">
-                        <div class="w-64 h-96 bg-white/10 rounded-3xl border-4 border-white/20 relative overflow-hidden">
-                            <div class="absolute inset-2 bg-primary-light rounded-2xl flex items-center justify-center flex-col">
-                                <svg class="h-20 w-20" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="50" cy="50" r="45" fill="white" />
-                                    <text x="50" y="55" font-size="24" text-anchor="middle" fill="#8A2BE2" font-family="Tajawal, sans-serif" font-weight="bold">مزاد</text>
-                                    <path d="M25,70 C25,70 50,85 75,70" stroke="#FF7F00" stroke-width="5" fill="none" />
-                                </svg>
-                                <p class="text-white font-bold mt-2">QATIF AUCTION</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-    
-    <!-- Login Modal -->
-    <div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden" id="loginModal">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden">
-            <div class="flex justify-between items-center p-4 border-b">
-                <h3 class="text-xl font-bold text-gray-800">تسجيل الدخول</h3>
-                <button class="text-gray-500 hover:text-gray-700 focus:outline-none" id="closeLoginModal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="p-6">
-                <form id="loginForm">
-                    <div class="mb-4">
-                        <label class="form-label">البريد الإلكتروني أو رقم الجوال</label>
-                        <input type="text" class="form-input" placeholder="أدخل البريد الإلكتروني أو رقم الجوال" required>
-                    </div>
-                    <div class="mb-6">
-                        <label class="form-label">كلمة المرور</label>
-                        <input type="password" class="form-input" placeholder="أدخل كلمة المرور" required>
-                    </div>
-                    <div class="flex items-center justify-between mb-6">
-                        <div class="flex items-center">
-                            <input type="checkbox" id="remember" class="ml-2">
-                            <label for="remember" class="text-gray-700">تذكرني</label>
-                        </div>
-                        <a href="#" class="text-primary hover:text-primary-light">نسيت كلمة المرور؟</a>
-                    </div>
-                    <button type="submit" class="btn-primary w-full">تسجيل الدخول</button>
-                </form>
-                <div class="mt-6 text-center">
-                    <p class="text-gray-600">ليس لديك حساب؟ <a href="#" class="text-primary hover:text-primary-light" id="switchToRegister">إنشاء حساب جديد</a></p>
-                </div>
-                <div class="mt-6">
-                    <div class="relative">
-                        <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t border-gray-300"></div>
-                        </div>
-                        <div class="relative flex justify-center text-sm">
-                            <span class="px-2 bg-white text-gray-500">أو التسجيل باستخدام</span>
-                        </div>
-                    </div>
-                    <div class="mt-6 grid grid-cols-2 gap-3">
-                        <button type="button" class="flex justify-center items-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-50">
-                            <i class="fab fa-google text-red-500 ml-2"></i>
-                            <span>Google</span>
-                        </button>
-                        <button type="button" class="flex justify-center items-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-50">
-                            <i class="fab fa-facebook-f text-blue-600 ml-2"></i>
-                            <span>Facebook</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Register Modal -->
-    <div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden" id="registerModal">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden">
-            <div class="flex justify-between items-center p-4 border-b">
-                <h3 class="text-xl font-bold text-gray-800">إنشاء حساب جديد</h3>
-                <button class="text-gray-500 hover:text-gray-700 focus:outline-none" id="closeRegisterModal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="p-6">
-                <form id="registerForm">
-                    <div class="mb-4">
-                        <label class="form-label">الاسم الكامل</label>
-                        <input type="text" class="form-input" placeholder="أدخل اسمك الكامل" required>
-                    </div>
-                    <div class="mb-4">
-                        <label class="form-label">رقم الجوال</label>
-                        <div class="flex">
-                            <span class="inline-flex items-center px-3 text-gray-500 bg-gray-100 border border-l-0 border-gray-300 rounded-r-md">
-                                +966
-                            </span>
-                            <input type="tel" class="form-input rounded-r-none" placeholder="5XXXXXXXX" required>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <label class="form-label">البريد الإلكتروني</label>
-                        <input type="email" class="form-input" placeholder="أدخل بريدك الإلكتروني" required>
-                    </div>
-                    <div class="mb-4">
-                        <label class="form-label">كلمة المرور</label>
-                        <input type="password" class="form-input" placeholder="أدخل كلمة المرور" required>
-                    </div>
-                    <div class="mb-6">
-                        <label class="form-label">تأكيد كلمة المرور</label>
-                        <input type="password" class="form-input" placeholder="أعد إدخال كلمة المرور" required>
-                    </div>
-                    <div class="flex items-center mb-6">
-                        <input type="checkbox" id="terms" class="ml-2" required>
-                        <label for="terms" class="text-gray-700">أوافق على <a href="#" class="text-primary">الشروط والأحكام</a> و <a href="#" class="text-primary">سياسة الخصوصية</a></label>
-                    </div>
-                    <button type="submit" class="btn-primary w-full">إنشاء حساب</button>
-                </form>
-                <div class="mt-6 text-center">
-                    <p class="text-gray-600">لديك حساب بالفعل؟ <a href="#" class="text-primary hover:text-primary-light" id="switchToLogin">تسجيل الدخول</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Add Ad Modal -->
-    <div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden" id="addAdModal">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4 overflow-hidden">
-            <div class="flex justify-between items-center p-4 border-b">
-                <h3 class="text-xl font-bold text-gray-800">إضافة إعلان جديد</h3>
-                <button class="text-gray-500 hover:text-gray-700 focus:outline-none" id="closeAddAdModal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="p-6 max-h-[80vh] overflow-y-auto">
-                <form id="addAdForm" style="margin-top:2rem;">
-                    <!-- Ad Category -->
-                    <div class="mb-6">
-                        <label class="form-label">القسم</label>
-                        <select class="form-input" required>
-                            <option value="" disabled selected>اختر القسم</option>
-                            <option value="cars">سيارات</option>
-                            <option value="real-estate">عقارات</option>
-                            <option value="electronics">أجهزة</option>
-                            <option value="furniture">أثاث</option>
-                            <option value="services">خدمات</option>
-                            <option value="jobs">وظائف</option>
-                        </select>
-                    </div>
-                    
-                    <!-- Ad Title -->
-                    <div class="mb-6">
-                        <label class="form-label">عنوان الإعلان</label>
-                        <input type="text" class="form-input" placeholder="أدخل عنوان الإعلان" required style="margin-bottom:1rem;">
-                        <p class="text-gray-500 text-sm mt-1">يجب أن يكون العنوان واضحاً ومختصراً (5-70 حرف)</p>
-                    </div>
-                    
-                    <!-- Ad Description -->
-                    <div class="mb-6">
-                        <label class="form-label">وصف الإعلان</label>
-                        <textarea class="form-input" rows="5" placeholder="اكتب وصفاً تفصيلياً للإعلان" required style="margin-bottom:1rem;"></textarea>
-                        <p class="text-gray-500 text-sm mt-1">اكتب وصفاً دقيقاً وشاملاً (20-1000 حرف)</p>
-                    </div>
-                    
-                    <!-- Ad Price -->
-                    <div class="mb-6">
-                        <label class="form-label">السعر</label>
-                        <div class="flex">
-                            <input type="number" class="form-input" placeholder="أدخل السعر" required style="margin-bottom:1rem;">
-                            <span class="inline-flex items-center px-3 text-gray-500 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
-                                ريال
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <!-- Ad Location -->
-                    <div class="mb-6">
-                        <label class="form-label">الموقع</label>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <select class="form-input" required style="margin-bottom:1rem;">
-                                <option value="" disabled selected>اختر المدينة</option>
-                                <option value="qatif">القطيف</option>
-                                <option value="dammam">الدمام</option>
-                                <option value="khobar">الخبر</option>
-                                <option value="dhahran">الظهران</option>
-                                <option value="jubail">الجبيل</option>
-                            </select>
-                            <select class="form-input" required style="margin-bottom:1rem;">
-                                <option value="" disabled selected>اختر الحي</option>
-                                <option value="qatif-center">وسط القطيف</option>
-                                <option value="qatif-beach">شاطئ القطيف</option>
-                                <option value="qatif-majidiyah">المجيدية</option>
-                                <option value="qatif-rabeeiyah">الربيعية</option>
-                                <option value="qatif-tarout">تاروت</option>
-                                <option value="qatif-safwa">صفوى</option>
-                                <option value="qatif-qadih">القديح</option>
-                                <option value="qatif-awamiyah">العوامية</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <!-- Ad Images -->
-                    <div class="mb-6">
-                        <label class="form-label">صور الإعلان</label>
-                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
-                            <p class="text-gray-500">اسحب الصور وأفلتها هنا أو انقر للاختيار</p>
-                            <p class="text-gray-400 text-sm mt-1">يمكنك رفع حتى 10 صور (الحد الأقصى 5 ميجابايت للصورة)</p>
-                            <input type="file" multiple accept="image/*" class="hidden" id="adImages">
-                            <button type="button" class="mt-4 py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-50" id="uploadImagesBtn">
-                                اختيار الصور
-                            </button>
-                        </div>
-                        <div class="grid grid-cols-4 gap-4 mt-4" id="imagePreviewContainer">
-                            <!-- Image previews will be added here -->
-                        </div>
-                    </div>
-                    
-                    <!-- Contact Information -->
-                    <div class="mb-6">
-                        <label class="form-label">معلومات التواصل</label>
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <div class="mb-4">
-                                <label class="flex items-center">
-                                    <input type="checkbox" class="ml-2" checked>
-                                    <span>استخدام معلومات الحساب</span>
-                                </label>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="form-label">الاسم</label>
-                                    <input type="text" class="form-input" value="محمد أحمد" disabled style="margin-bottom:1rem;">
-                                </div>
-                                <div>
-                                    <label class="form-label">رقم الجوال</label>
-                                    <input type="text" class="form-input" value="+966 5XXXXXXXX" disabled style="margin-bottom:1rem;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Submit Button -->
-                    <div class="flex justify-end">
-                        <button type="button" class="btn-outline ml-4" id="cancelAddAd">إلغاء</button>
-                        <button type="submit" class="btn-primary">نشر الإعلان</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Success Modal -->
-    <div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden" id="successModal">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden">
-            <div class="p-6 text-center">
-                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-check text-2xl text-green-500"></i>
-                </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-2" id="successModalTitle">تم بنجاح!</h3>
-                <p class="text-gray-600 mb-6" id="successModalMessage">تمت العملية بنجاح.</p>
-                <button class="btn-primary w-full" id="closeSuccessModal">حسناً</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- الإعلانات الديناميكية -->
-    <div id="ads" style="text-align:center;">
-      <div class="loader"></div>
-      <p>جاري تحميل الإعلانات...</p>
-    </div>
+  </header>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-10">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <!-- Logo and About -->
-                <div>
-                    <div class="flex items-center mb-4">
-                        <svg class="h-10 w-10" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="50" cy="50" r="45" fill="#8A2BE2" />
-                            <text x="50" y="55" font-size="24" text-anchor="middle" fill="white" font-family="Tajawal, sans-serif" font-weight="bold">مزاد</text>
-                            <path d="M25,70 C25,70 50,85 75,70" stroke="#FF7F00" stroke-width="5" fill="none" />
-                        </svg>
-                        <div class="mr-2">
-                            <span class="text-xl font-bold block">مزاد القطيف</span>
-                            <span class="text-sm text-gray-400 block">QATIF AUCTION</span>
-                        </div>
-                    </div>
-                    <p class="text-gray-400 mb-4">المنصة الأولى للبيع والشراء في القطيف والمنطقة الشرقية.</p>
-                    <div class="flex space-x-4 space-x-reverse">
-                        <a href="#" class="text-gray-400 hover:text-white transition">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition">
-                            <i class="fab fa-snapchat-ghost"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Quick Links -->
-                <div>
-                    <h3 class="text-lg font-bold mb-4">روابط سريعة</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">الرئيسية</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">تصفح الإعلانات</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">أضف إعلان</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">حسابي</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">المفضلة</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Categories -->
-                <div>
-                    <h3 class="text-lg font-bold mb-4">الفئات</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">السيارات</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">العقارات</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">الأجهزة</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">الخدمات</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">الوظائف</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Contact -->
-                <div>
-                    <h3 class="text-lg font-bold mb-4">اتصل بنا</h3>
-                    <ul class="space-y-2">
-                        <li class="flex items-center">
-                            <i class="fas fa-map-marker-alt ml-2 text-secondary"></i>
-                            <span class="text-gray-400">القطيف، المملكة العربية السعودية</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-phone-alt ml-2 text-secondary"></i>
-                            <span class="text-gray-400">+966 13 XXX XXXX</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-envelope ml-2 text-secondary"></i>
-                            <span class="text-gray-400">info@qatifauction.com</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <hr class="border-gray-700 my-8">
-            
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400 mb-4 md:mb-0">© 2023 QATIF AUCTION. جميع الحقوق محفوظة.</p>
-                <div class="flex space-x-4 space-x-reverse">
-                    <a href="#" class="text-gray-400 hover:text-white transition">سياسة الخصوصية</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition">شروط الاستخدام</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition">الأسئلة الشائعة</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <footer style="text-align:center; color:#777; padding:1rem; margin-top:3rem;">
-      <hr>
-      <p>جميع الحقوق محفوظة © 2025 | Qatif Auction</p>
-    </footer>
-<script type="module">
-  // Firebase Auth with Phone Number
-  import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+  <!-- المحتوى الرئيسي -->
+  <main class="p-6">
+    <section class="text-center mb-10">
+      <h2 class="text-3xl font-bold text-purple-700 mb-2">مرحبًا بك في منصة مزاد القطيف</h2>
+      <p class="text-gray-700">أعلن، ابحث، وتواصل مع البائعين مباشرة بكل سهولة وأمان</p>
+    </section>
 
-  // تأكد من تهيئة firebaseConfig و app مسبقاً
-  // const app = initializeApp(firebaseConfig);
-  // const analytics = getAnalytics(app);
-  const auth = getAuth(app);
+    <section class="grid md:grid-cols-3 gap-6">
+      <div class="bg-white rounded shadow p-6 text-center hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-2">🚗 سيارات</h3>
+        <p class="text-gray-600">بيع وشراء السيارات الجديدة والمستعملة في القطيف.</p>
+      </div>
+      <div class="bg-white rounded shadow p-6 text-center hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-2">🏘️ عقارات</h3>
+        <p class="text-gray-600">اكتشف العروض العقارية من شقق وأراضي ومنازل.</p>
+      </div>
+      <div class="bg-white rounded shadow p-6 text-center hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-2">📱 إلكترونيات</h3>
+        <p class="text-gray-600">أجهزة ذكية، حواسيب، جوالات وأكثر.</p>
+      </div>
+    </section>
 
-  // إعداد Recaptcha
-  window.recaptchaVerifier = new RecaptchaVerifier("recaptcha-container", {
-    size: "normal",
-    callback: (response) => {
-      console.log("reCAPTCHA success!");
-    },
-  }, auth);
+    <section id="ads-section" class="mt-10">
+      <h2 class="text-2xl font-bold text-center text-purple-800 mb-4">أحدث الإعلانات</h2>
+      <div id="ads-list" class="space-y-4 max-w-4xl mx-auto">
+        <!-- سيتم تحميل الإعلانات هنا -->
+      </div>
+    </section>
+  </main>
 
-  window.sendCode = function() {
-    const phone = document.getElementById("phoneNumber").value;
-    const appVerifier = window.recaptchaVerifier;
+  <section id="login" class="bg-white p-6 rounded shadow max-w-md mx-auto mt-12">
+    <h3 class="text-xl font-bold text-center mb-4 text-purple-800">تسجيل الدخول</h3>
+    <form class="space-y-4">
+      <div>
+        <label class="block text-sm mb-1 text-gray-700">رقم الجوال</label>
+        <input type="tel" placeholder="05xxxxxxxx" class="w-full p-2 border rounded" />
+      </div>
+      <div>
+        <label class="block text-sm mb-1 text-gray-700">رمز التحقق</label>
+        <input type="text" placeholder="أدخل الرمز المرسل" class="w-full p-2 border rounded" />
+      </div>
+      <button type="submit" class="w-full bg-purple-800 text-white py-2 rounded hover:bg-purple-700 transition">دخول</button>
+    </form>
+  </section>
 
-    signInWithPhoneNumber(auth, phone, appVerifier)
-      .then((confirmationResult) => {
+  <!-- نموذج إضافة إعلان جديد -->
+  <section id="add-ad" class="bg-white p-6 rounded shadow max-w-2xl mx-auto mt-12">
+    <h3 class="text-xl font-bold text-center mb-4 text-purple-800">إضافة إعلان جديد</h3>
+    <form id="adForm" class="space-y-4">
+      <div>
+        <label class="block text-sm mb-1 text-gray-700">عنوان الإعلان</label>
+        <input id="titleInput" type="text" placeholder="مثال: كاميرا للبيع" class="w-full p-2 border rounded" required />
+      </div>
+      <div>
+        <label class="block text-sm mb-1 text-gray-700">نوع القسم</label>
+        <select id="categoryInput" class="w-full p-2 border rounded" required>
+          <option value="">اختر القسم</option>
+          <option>سيارات</option>
+          <option>عقارات</option>
+          <option>إلكترونيات</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm mb-1 text-gray-700">الوصف</label>
+        <textarea id="descInput" rows="4" placeholder="أضف تفاصيل الإعلان" class="w-full p-2 border rounded" required></textarea>
+      </div>
+      <div>
+        <label class="block text-sm mb-1 text-gray-700">صورة الإعلان</label>
+        <input id="imageInput" type="file" accept="image/*" class="w-full p-2 border rounded bg-gray-50" required />
+      </div>
+      <button type="submit" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">نشر الإعلان</button>
+    </form>
+  </section>
+
+  <!-- تذييل -->
+  <footer class="bg-gray-200 text-center text-sm text-gray-600 p-4 mt-10">
+    &copy; 2025 مزاد القطيف. جميع الحقوق محفوظة.
+  </footer>
+
+  <!-- Firebase SDKs -->
+  <!-- إضافة مكتبة Firebase وتهيئة الاتصال -->
+  <script type="module">
+    // استيراد الحزم المطلوبة من Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-storage.js";
+    import { getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+
+    // إعدادات Firebase الخاصة بك
+    const firebaseConfig = {
+      apiKey: "AIzaSyCFQtwifMb4YWSLb1Tp1Q1QYvzyl0Fm9nM",
+      authDomain: "qatifauction.firebaseapp.com",
+      projectId: "qatifauction",
+      storageBucket: "qatifauction.appspot.com",
+      messagingSenderId: "799759393790",
+      appId: "1:799759393790:web:f770f97a688be83ec316af",
+      measurementId: "G-0MZFF06ZDH"
+    };
+
+    // تهيئة Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    async function loadAds() {
+      const q = query(collection(db, "ads"), orderBy("createdAt", "desc"));
+      const snapshot = await getDocs(q);
+      const container = document.getElementById("ads-list");
+
+      snapshot.forEach(doc => {
+        const ad = doc.data();
+        const adEl = document.createElement("div");
+        adEl.className = "bg-white shadow rounded p-4 flex gap-4 items-center";
+
+        adEl.innerHTML = `
+          <img src="${ad.imageUrl}" alt="صورة" class="w-24 h-24 object-cover rounded border" />
+          <div class="flex-1">
+            <h3 class="text-lg font-bold text-purple-800">${ad.title}</h3>
+            <p class="text-gray-600 text-sm mt-1">${ad.category} - ${new Date(ad.createdAt).toLocaleString('ar-EG')}</p>
+          </div>
+          <span class="text-green-600 font-bold text-lg">📦</span>
+        `;
+
+        container.appendChild(adEl);
+      });
+    }
+
+    loadAds();
+
+    // تهيئة Recaptcha للتحقق من المستخدم
+    window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+      'size': 'invisible',
+      'callback': (response) => {
+        // يتم الاستدعاء تلقائيًا عند النجاح
+      }
+    }, auth);
+
+    // ربط حدث الإرسال لنموذج تسجيل الدخول
+    document.querySelector("#login form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      // الحصول على رقم الجوال من الحقل
+      const phone = document.querySelector('input[type="tel"]').value;
+      const appVerifier = window.recaptchaVerifier;
+      try {
+        // إرسال رمز التحقق عبر Firebase Authentication
+        const confirmationResult = await signInWithPhoneNumber(auth, "+966" + phone.slice(1), appVerifier);
         window.confirmationResult = confirmationResult;
-        document.getElementById("verifySection").style.display = "block";
-        alert("تم إرسال الكود إلى جوالك");
-      }).catch((error) => {
-        console.error("خطأ في الإرسال", error);
+        alert("تم إرسال رمز التحقق بنجاح.");
+      } catch (error) {
         alert("حدث خطأ: " + error.message);
-      });
-  }
+      }
+    });
 
-  window.verifyCode = function() {
-    const code = document.getElementById("verificationCode").value;
-    window.confirmationResult.confirm(code)
-      .then((result) => {
-        const user = result.user;
-        alert("تم تسجيل الدخول بنجاح! ✅");
-        console.log("User:", user);
-      }).catch((error) => {
-        alert("كود غير صحيح ❌");
-      });
-  }
-</script>
-<script>
-        // DOM Elements
-        const menuToggle = document.getElementById('menuToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const searchToggle = document.getElementById('searchToggle');
-        const mobileSearch = document.getElementById('mobileSearch');
-        const userMenuBtn = document.getElementById('userMenuBtn');
-        const userMenu = document.getElementById('userMenu');
-        
-        // Modal Elements
-        const loginModal = document.getElementById('loginModal');
-        const registerModal = document.getElementById('registerModal');
-        const addAdModal = document.getElementById('addAdModal');
-        const successModal = document.getElementById('successModal');
-        
-        // Buttons
-        const loginBtn = document.getElementById('loginBtn');
-        const registerBtn = document.getElementById('registerBtn');
-        const addAdBtn = document.getElementById('addAdBtn');
-        const heroAddAdBtn = document.getElementById('heroAddAdBtn');
-        const closeLoginModal = document.getElementById('closeLoginModal');
-        const closeRegisterModal = document.getElementById('closeRegisterModal');
-        const closeAddAdModal = document.getElementById('closeAddAdModal');
-        const closeSuccessModal = document.getElementById('closeSuccessModal');
-        const switchToRegister = document.getElementById('switchToRegister');
-        const switchToLogin = document.getElementById('switchToLogin');
-        const cancelAddAd = document.getElementById('cancelAddAd');
-        const uploadImagesBtn = document.getElementById('uploadImagesBtn');
-        const adImages = document.getElementById('adImages');
-        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-        
-        // Forms
-        const loginForm = document.getElementById('loginForm');
-        const registerForm = document.getElementById('registerForm');
-        const addAdForm = document.getElementById('addAdForm');
-        
-        // User state
-        let isLoggedIn = false;
-        const loggedInMenu = document.getElementById('loggedInMenu');
-        const logoutBtn = document.getElementById('logoutBtn');
-        
-        // Mobile Menu Toggle
-        menuToggle.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+    // ربط حدث الإرسال لنموذج إضافة إعلان
+    document.getElementById("adForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const title = document.getElementById("titleInput").value;
+      const category = document.getElementById("categoryInput").value;
+      const description = document.getElementById("descInput").value;
+      const imageFile = document.getElementById("imageInput").files[0];
+
+      if (!imageFile) return alert("يرجى اختيار صورة.");
+
+      const storageRef = ref(storage, 'ads/' + Date.now() + "_" + imageFile.name);
+      try {
+        const snapshot = await uploadBytes(storageRef, imageFile);
+        const imageUrl = await getDownloadURL(snapshot.ref);
+        await addDoc(collection(db, "ads"), {
+          title,
+          category,
+          description,
+          imageUrl,
+          createdAt: new Date().toISOString()
         });
-        
-        // Mobile Search Toggle
-        searchToggle.addEventListener('click', () => {
-            mobileSearch.classList.toggle('hidden');
-        });
-        
-        // User Menu Toggle
-        userMenuBtn.addEventListener('click', () => {
-            userMenu.classList.toggle('hidden');
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!userMenuBtn.contains(e.target) && !userMenu.contains(e.target)) {
-                userMenu.classList.add('hidden');
-            }
-        });
-        
-        // Modal Functions
-        function openModal(modal) {
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeModal(modal) {
-            modal.classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-        
-        // Login Modal
-        loginBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal(loginModal);
-            userMenu.classList.add('hidden');
-        });
-        
-        closeLoginModal.addEventListener('click', () => {
-            closeModal(loginModal);
-        });
-        
-        // Register Modal
-        registerBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal(registerModal);
-            userMenu.classList.add('hidden');
-        });
-        
-        closeRegisterModal.addEventListener('click', () => {
-            closeModal(registerModal);
-        });
-        
-        // Switch between login and register
-        switchToRegister.addEventListener('click', (e) => {
-            e.preventDefault();
-            closeModal(loginModal);
-            openModal(registerModal);
-        });
-        
-        switchToLogin.addEventListener('click', (e) => {
-            e.preventDefault();
-            closeModal(registerModal);
-            openModal(loginModal);
-        });
-        
-        // Add Ad Modal
-        addAdBtn.addEventListener('click', () => {
-            if (isLoggedIn) {
-                openModal(addAdModal);
-            } else {
-                openModal(loginModal);
-            }
-        });
-        
-        heroAddAdBtn.addEventListener('click', () => {
-            if (isLoggedIn) {
-                openModal(addAdModal);
-            } else {
-                openModal(loginModal);
-            }
-        });
-        
-        closeAddAdModal.addEventListener('click', () => {
-            closeModal(addAdModal);
-        });
-        
-        cancelAddAd.addEventListener('click', () => {
-            closeModal(addAdModal);
-        });
-        
-        // Success Modal
-        closeSuccessModal.addEventListener('click', () => {
-            closeModal(successModal);
-        });
-        
-        // Form Submissions
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Simulate login
-            isLoggedIn = true;
-            
-            // Update UI for logged in user
-            document.querySelectorAll('#userMenu > a').forEach(item => item.classList.add('hidden'));
-            loggedInMenu.classList.remove('hidden');
-            
-            // Show success message
-            document.getElementById('successModalTitle').textContent = 'تم تسجيل الدخول بنجاح!';
-            document.getElementById('successModalMessage').textContent = 'مرحباً بك في QATIF AUCTION.';
-            
-            closeModal(loginModal);
-            openModal(successModal);
-        });
-        
-        registerForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Simulate registration
-            isLoggedIn = true;
-            
-            // Update UI for logged in user
-            document.querySelectorAll('#userMenu > a').forEach(item => item.classList.add('hidden'));
-            loggedInMenu.classList.remove('hidden');
-            
-            // Show success message
-            document.getElementById('successModalTitle').textContent = 'تم إنشاء الحساب بنجاح!';
-            document.getElementById('successModalMessage').textContent = 'مرحباً بك في QATIF AUCTION.';
-            
-            closeModal(registerModal);
-            openModal(successModal);
-        });
-        
-        addAdForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Show success message
-            document.getElementById('successModalTitle').textContent = 'تم نشر الإعلان بنجاح!';
-            document.getElementById('successModalMessage').textContent = 'سيظهر إعلانك بعد مراجعته من قبل الإدارة.';
-            
-            closeModal(addAdModal);
-            openModal(successModal);
-        });
-        
-        // Logout
-        logoutBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            // Simulate logout
-            isLoggedIn = false;
-            
-            // Update UI for logged out user
-            document.querySelectorAll('#userMenu > a').forEach(item => item.classList.remove('hidden'));
-            loggedInMenu.classList.add('hidden');
-            
-            userMenu.classList.add('hidden');
-            
-            // Show success message
-            document.getElementById('successModalTitle').textContent = 'تم تسجيل الخروج بنجاح!';
-            document.getElementById('successModalMessage').textContent = 'نتمنى رؤيتك مرة أخرى قريباً.';
-            
-            openModal(successModal);
-        });
-        
-        // Image Upload
-        uploadImagesBtn.addEventListener('click', () => {
-            adImages.click();
-        });
-        
-        adImages.addEventListener('change', (e) => {
-            imagePreviewContainer.innerHTML = '';
-            
-            if (e.target.files.length > 0) {
-                for (let i = 0; i < Math.min(e.target.files.length, 10); i++) {
-                    const file = e.target.files[i];
-                    
-                    // Create preview element
-                    const preview = document.createElement('div');
-                    preview.className = 'relative';
-                    
-                    const img = document.createElement('div');
-                    img.className = 'h-24 bg-gray-200 rounded-lg flex items-center justify-center';
-                    img.innerHTML = '<i class="fas fa-image text-2xl text-gray-400"></i>';
-                    
-                    const removeBtn = document.createElement('button');
-                    removeBtn.className = 'absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center';
-                    removeBtn.innerHTML = '<i class="fas fa-times text-xs"></i>';
-                    removeBtn.onclick = function() {
-                        preview.remove();
-                    };
-                    
-                    preview.appendChild(img);
-                    preview.appendChild(removeBtn);
-                    imagePreviewContainer.appendChild(preview);
-                }
-            }
-        });
-        
-        // Category Cards Hover Effect
-        const categoryCards = document.querySelectorAll('.category-card');
-        categoryCards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                const icon = card.querySelector('i');
-                icon.classList.add('text-secondary');
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                const icon = card.querySelector('i');
-                icon.classList.remove('text-secondary');
-                icon.classList.add('text-primary');
-            });
-        });
-        
-        // Close modals when clicking outside
-        window.addEventListener('click', (e) => {
-            if (e.target === loginModal) closeModal(loginModal);
-            if (e.target === registerModal) closeModal(registerModal);
-            if (e.target === addAdModal) closeModal(addAdModal);
-            if (e.target === successModal) closeModal(successModal);
-        });
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'944f8dcde1f6eddc',t:'MTc0ODExODY1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+        alert("تم نشر الإعلان بنجاح");
+        document.getElementById("adForm").reset();
+      } catch (err) {
+        alert("حدث خطأ أثناء رفع الإعلان: " + err.message);
+      }
+    });
+  </script>
+
+  <!-- عنصر وهمي لركابتشا -->
+  <div id="recaptcha-container"></div>
+</body>
 </html>
