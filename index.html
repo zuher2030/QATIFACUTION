@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>مزاد القطيف - المنصة الرسمية</title>
+  <title>مزاد سيارات القطيف - المنصة الرسمية</title>
   <meta name="description" content="منصة مزاد القطيف لعرض وبيع السلع بسهولة وأمان في المنطقة.">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -12,7 +12,7 @@
 
   <!-- رأس الموقع -->
   <header class="bg-purple-800 text-white p-4 shadow-md flex justify-between items-center">
-    <h1 class="text-2xl font-bold">مزاد القطيف</h1>
+    <h1 class="text-2xl font-bold">مزاد سيارات القطيف</h1>
     <nav>
       <ul class="flex space-x-4 space-x-reverse items-center">
         <li><a href="#" class="hover:underline">الرئيسية</a></li>
@@ -26,7 +26,7 @@
   <!-- المحتوى الرئيسي -->
   <main class="p-6">
     <section class="text-center mb-10">
-      <h2 class="text-3xl font-bold text-purple-700 mb-2">مرحبًا بك في منصة مزاد القطيف</h2>
+      <h2 class="text-3xl font-bold text-purple-700 mb-2">مرحبًا بك في منصة مزاد سيارات القطيف</h2>
       <p class="text-gray-700">أعلن، ابحث، وتواصل مع البائعين مباشرة بكل سهولة وأمان</p>
     </section>
 
@@ -35,18 +35,13 @@
         <h3 class="text-xl font-semibold mb-2">🚗 سيارات</h3>
         <p class="text-gray-600">بيع وشراء السيارات الجديدة والمستعملة في القطيف.</p>
       </div>
-      <div class="bg-white rounded shadow p-6 text-center hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold mb-2">🏘️ عقارات</h3>
-        <p class="text-gray-600">اكتشف العروض العقارية من شقق وأراضي ومنازل.</p>
-      </div>
-      <div class="bg-white rounded shadow p-6 text-center hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold mb-2">📱 إلكترونيات</h3>
-        <p class="text-gray-600">أجهزة ذكية، حواسيب، جوالات وأكثر.</p>
-      </div>
     </section>
 
     <section id="ads-section" class="mt-10">
       <h2 class="text-2xl font-bold text-center text-purple-800 mb-4">أحدث الإعلانات</h2>
+      <div class="text-center mb-4">
+        <button onclick="filterByCategory('سيارات')" class="px-3 py-1 mx-1 bg-purple-100 hover:bg-purple-200 rounded">🚗 سيارات</button>
+      </div>
       <div id="ads-list" class="space-y-4 max-w-4xl mx-auto">
         <!-- سيتم تحميل الإعلانات هنا -->
       </div>
@@ -58,7 +53,7 @@
     <form class="space-y-4">
       <div>
         <label class="block text-sm mb-1 text-gray-700">رقم الجوال</label>
-        <input type="tel" placeholder="05xxxxxxxx" class="w-full p-2 border rounded" />
+        <input type="tel" inputmode="numeric" placeholder="05xxxxxxxx" class="w-full p-2 border rounded" />
       </div>
       <div>
         <label class="block text-sm mb-1 text-gray-700">رمز التحقق</label>
@@ -70,20 +65,11 @@
 
   <!-- نموذج إضافة إعلان جديد -->
   <section id="add-ad" class="bg-white p-6 rounded shadow max-w-2xl mx-auto mt-12">
-    <h3 class="text-xl font-bold text-center mb-4 text-purple-800">إضافة إعلان جديد</h3>
+    <h3 class="text-xl font-bold text-center mb-4 text-purple-800">إضافة سيارة جديدة</h3>
     <form id="adForm" class="space-y-4">
       <div>
         <label class="block text-sm mb-1 text-gray-700">عنوان الإعلان</label>
         <input id="titleInput" type="text" placeholder="مثال: كاميرا للبيع" class="w-full p-2 border rounded" required />
-      </div>
-      <div>
-        <label class="block text-sm mb-1 text-gray-700">نوع القسم</label>
-        <select id="categoryInput" class="w-full p-2 border rounded" required>
-          <option value="">اختر القسم</option>
-          <option>سيارات</option>
-          <option>عقارات</option>
-          <option>إلكترونيات</option>
-        </select>
       </div>
       <div>
         <label class="block text-sm mb-1 text-gray-700">الوصف</label>
@@ -129,6 +115,17 @@
     const db = getFirestore(app);
     const storage = getStorage(app);
 
+    function filterByCategory(category) {
+      const ads = document.querySelectorAll("#ads-list > div");
+      ads.forEach(ad => {
+        if (category === "الكل" || ad.dataset.cat === category) {
+          ad.style.display = "flex";
+        } else {
+          ad.style.display = "none";
+        }
+      });
+    }
+
     async function loadAds() {
       const q = query(collection(db, "ads"), orderBy("createdAt", "desc"));
       const snapshot = await getDocs(q);
@@ -138,12 +135,14 @@
         const ad = doc.data();
         const adEl = document.createElement("div");
         adEl.className = "bg-white shadow rounded p-4 flex gap-4 items-center";
+        adEl.dataset.cat = ad.category;
 
         adEl.innerHTML = `
           <img src="${ad.imageUrl}" alt="صورة" class="w-24 h-24 object-cover rounded border" />
           <div class="flex-1">
             <h3 class="text-lg font-bold text-purple-800">${ad.title}</h3>
             <p class="text-gray-600 text-sm mt-1">${ad.category} - ${new Date(ad.createdAt).toLocaleString('ar-EG')}</p>
+            <a href="https://wa.me/?text=مرحبًا، مهتم بالإعلان: ${encodeURIComponent(ad.title)}" target="_blank" class="text-green-600 hover:underline text-sm">تواصل عبر واتساب</a>
           </div>
           <span class="text-green-600 font-bold text-lg">📦</span>
         `;
@@ -182,7 +181,7 @@
     document.getElementById("adForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const title = document.getElementById("titleInput").value;
-      const category = document.getElementById("categoryInput").value;
+      const category = "سيارات";
       const description = document.getElementById("descInput").value;
       const imageFile = document.getElementById("imageInput").files[0];
 
